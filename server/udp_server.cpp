@@ -1,7 +1,8 @@
 #include "udp_server.hpp"
 
-UdpServer::UdpServer(uint16_t port) {
-	sock_ = socket(PF_INET, SOCK_DGRAM, IP_PROTOCOL);
+UdpServer::UdpServer(const ServerConfig &config) {
+    config_ = config;
+	sock_ = socket(PF_INET, SOCK_DGRAM, 0);
 	if(sock_ < 0) {
 		// failed to create socket
 		// handle appropriately
@@ -11,7 +12,7 @@ UdpServer::UdpServer(uint16_t port) {
 	struct sockaddr_in addr_;
 	bzero(&addr_, sizeof(struct sockaddr));
 	addr_.sin_family = AF_INET;
-	addr_.sin_port = htons(port);
+	addr_.sin_port = htons(config.port_);
 	addr_.sin_addr.s_addr = htonl(INADDR_ANY);
 
 	if(bind(sock_, (struct sockaddr *) &addr_,
@@ -30,25 +31,23 @@ UdpServer::~UdpServer() {
 }
 
 int UdpServer::Listen() {
-
-	buffer_ = malloc(sizeof(MAX_PACKET));
+	buffer_ = malloc(sizeof(config_.max_packet_size_));
 	struct sockaddr name;
 	socklen_t len = sizeof(name);
 	
 	while(1) {
-		int err_code = recvfrom(sock_, buffer_, MAX_PACKET, 
+		int err_code = recvfrom(sock_, buffer_, config_.max_packet_size_, 
 				0, (struct sockaddr *) &name, &len);
 
 		if(err_code < 0) {
 			// error
-			perror("recfrom");
+			perror("recvfrom");
 	    	exit(EXIT_FAILURE);
 		}
 
 		// make a unique pointer
-
+        fprintf(stdout, "Server: got message: %s\n", (char *)buffer_);
 		HandlePacket(buffer_);
-		fprintf(stdout, "Server: got message: %s\n", (char *)buffer_);
 	}
 
 	return 0;

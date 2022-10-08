@@ -15,11 +15,15 @@
 #include <errno.h>
 #include <unistd.h>
 
+struct ServerConfig {
+    uint16_t port_;
+    int max_packet_size_;
+};
+
 class UdpServer {
 
-	static const uint16_t DEFAULT_PORT = 5555;
-	static const size_t MAX_PACKET = 65536; 
-	static const int IP_PROTOCOL = 0;
+    // server configuration data
+    struct ServerConfig config_;
 
 	// the socket's file descriptor
 	int sock_;
@@ -29,7 +33,8 @@ class UdpServer {
 
 	public:
 
-	UdpServer(uint16_t port=DEFAULT_PORT);
+    UdpServer();
+	UdpServer(const ServerConfig &config);
 
 	~UdpServer();
 
