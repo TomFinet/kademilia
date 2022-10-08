@@ -17,7 +17,8 @@ class KademiliaServer : public UdpServer {
 
 	public:
 
-	KademiliaServer();
+    KademiliaServer() : UdpServer() {}
+	KademiliaServer(const ServerConfig &config) : UdpServer(config) {}
 
 	/**
 	 * Sends a message to the specified node.

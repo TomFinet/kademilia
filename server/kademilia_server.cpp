@@ -9,8 +9,6 @@
 	// use the sendto function
 }*/
 
-KademiliaServer::KademiliaServer() { }
-
 
 int KademiliaServer::HandlePacket(void *buffer) {
 	// determines what should be done with the packet

@@ -22,4 +22,10 @@ const int T_REPLICATE = 3600;
 // time after which original publisher must republish a key/value pair
 const int T_REPUBLISH = 86410;
 
+// default port udp socket is bound to.
+const int DEFAULT_PORT = 5000;
+
+// maximum udp packet size in bytes
+const int MAX_UDP_PACKET = 65507;
+
 #endif

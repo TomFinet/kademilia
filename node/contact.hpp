@@ -1,18 +1,21 @@
 #ifndef CONTACT_
 #define CONTACT_
 
+#include "key.hpp"
+
 /*
  * Holds all data to represent a node on the network. 
  */
-template<const int ID_SIZE>
 class Contact {
 	
-    NodeId<ID_SIZE> id_;
+    Key id_;
+
+    public:
 
     Contact();
     ~Contact();
 
-    inline bool operator==(const Contact &lhs, const Contact &rhs) { return lhs.id_ == rhs.id_; }
-}
+    inline bool operator==(const Contact &other) { return id_ == other.id_; }
+};
 
 #endif

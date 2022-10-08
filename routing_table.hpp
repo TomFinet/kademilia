@@ -3,20 +3,20 @@
 
 #include <memory>
 
-/**
- * A list of N K-buckets, where bucket i stores
- * the closest k nodes at distance d for 2^i<= d < 2^{i+1}. 
- */
-template<const int N, const int K>
+#include "network_params.hpp"
+#include "contact.hpp"
+
+
 class RoutingTable {
 
-	// N buckets each of size K
-	Node buckets_[N][K];
+	Contact buckets_[KEY_SIZE][BUCKET_SIZE];
+
+    public:
 
 	RoutingTable();
+    ~RoutingTable();
 
-	int AddContact(const Node &contact);
-
-}
+	int AddContact(const Contact &contact);
+};
 
 #endif
